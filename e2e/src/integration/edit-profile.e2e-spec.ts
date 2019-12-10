@@ -29,4 +29,3 @@ describe('Login functionality', () => {
     expect(await dashboardPage.textUserInitials.getText()).toEqual(getInitials(antonAccountData.firstName, antonAccountData.lastName));
     expect(await dashboardPage.textUserName.getText()).toEqual(antonAccountData.userId);
   });
-});

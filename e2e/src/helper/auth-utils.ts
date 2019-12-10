@@ -3,7 +3,7 @@ import {SignUpPo} from '../support/sign-up.po';
 import {NewFreelancerPo} from '../support/new-freelancer.po';
 import {PaymentsPo} from '../support/payments.po';
 
-export async function signUpAsFreelancer(email: string, password: string, userName: string) {
+export async function signUpAsFreelancer(newAccountData) {
   const homePage = new HomePo();
   const signUpPage = new SignUpPo();
   const newFreelancerPage = new NewFreelancerPo();
@@ -13,11 +13,11 @@ export async function signUpAsFreelancer(email: string, password: string, userNa
 
   await homePage.buttonWantWork.click();
 
-  await signUpPage.inputEmail.sendKeys(email);
-  await signUpPage.inputPassword.sendKeys(password);
+  await signUpPage.inputEmail.sendKeys(newAccountData.email);
+  await signUpPage.inputPassword.sendKeys(newAccountData.password);
   await signUpPage.buttonSignUp.click();
 
-  await signUpPage.inputUserName.sendKeys(userName);
+  await signUpPage.inputUserName.sendKeys(newAccountData.userId);
   await signUpPage.buttonNext.click();
 
   await signUpPage.buttonIWantWork.click();
@@ -26,10 +26,8 @@ export async function signUpAsFreelancer(email: string, password: string, userNa
   await newFreelancerPage.checkboxMySql.click();
   await newFreelancerPage.buttonNext.click();
 
-  const firstName = 'Ivan';
-  const lastName = 'Ivanov';
-  await newFreelancerPage.inputFirstName.sendKeys(firstName);
-  await newFreelancerPage.inputLastName.sendKeys(lastName);
+  await newFreelancerPage.inputFirstName.sendKeys(newAccountData.firstName);
+  await newFreelancerPage.inputLastName.sendKeys(newAccountData.lastName);
   await newFreelancerPage.buttonLevelBeginner.click();
 
   await paymentPage.linkSkipForNow.click();
