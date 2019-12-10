@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "untitled": {
+    "AQAProtractor": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "untitled:build"
+            "browserTarget": "AQAProtractor:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "untitled:build:production"
+              "browserTarget": "AQAProtractor:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "untitled:build"
+            "browserTarget": "AQAProtractor:build"
           }
         },
         "test": {
@@ -111,15 +111,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "untitled:serve"
+            "devServerTarget": "AQAProtractor:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "untitled:serve:production"
+              "devServerTarget": "AQAProtractor:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "untitled"
+  "defaultProject": "AQAProtractor"
 }
