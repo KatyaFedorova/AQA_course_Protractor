@@ -1,16 +1,33 @@
+import { SignUpPo } from '../support/sign-up.po';
+import { NewFreelancerPo } from '../support/new-freelancer.po';
+import { PaymentsPo } from '../support/payments.po';
 
-import {LoginPo} from "../support/login.po";
-import {HeaderPo} from "../support/header.po";
+const signUpPage = new SignUpPo();
+const newFreelancerPage = new NewFreelancerPo();
+const paymentPage = new PaymentsPo();
 
-const loginPage = new LoginPo();
-const header = new HeaderPo();
+export async function signUpAsFreelancer(newAccountData) {
+  await signUpPage.open();
 
-export async function login(email: string, password:string) {
-  await loginPage.navigateTo();
-  await loginPage.inputUserName.sendKeys(email);
-  await loginPage.inputPassword.sendKeys(password);
-  await loginPage.btnLogin.click();
-  await header.waitForVisible(header.iconUserSubDetails);
+  await signUpPage.sendKeys(signUpPage.inputEmail, newAccountData.email);
+  await signUpPage.sendKeys(signUpPage.inputPassword, newAccountData.password);
+  await signUpPage.click(signUpPage.buttonSignUp);
 
+  await signUpPage.sendKeys(signUpPage.inputUserName, newAccountData.userId);
+  await signUpPage.click(signUpPage.buttonNext);
+
+  await signUpPage.click(signUpPage.buttonIWantWork);
+
+  await newFreelancerPage.click(newFreelancerPage.linkSkillIT);
+  await newFreelancerPage.click(newFreelancerPage.checkboxMySql);
+  await newFreelancerPage.click(newFreelancerPage.buttonNext);
+
+  await newFreelancerPage.sendKeys(newFreelancerPage.inputFirstName, newAccountData.firstName);
+  await newFreelancerPage.sendKeys(newFreelancerPage.inputLastName, newAccountData.lastName);
+  await newFreelancerPage.click(newFreelancerPage.buttonLevelBeginner);
+
+  await paymentPage.click(paymentPage.linkSkipForNow);
+
+  await paymentPage.click(paymentPage.linkSkipForNow);
 }
 

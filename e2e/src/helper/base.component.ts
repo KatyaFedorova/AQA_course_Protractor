@@ -1,58 +1,46 @@
-import {browser, by, ElementFinder, ExpectedConditions} from "protractor";
+import {browser, ElementFinder, ExpectedConditions} from "protractor";
 
 export class BaseComponent {
-  pageUrl;
+  url: string = '/';
+  IMPLICITLY_WAIT = 5000;
+
+  async open() {
+    await browser.get(this.url);
+  }
+
+  async waitForUrl(timeout?: number) {
+    await browser.wait(ExpectedConditions.urlIs(browser.baseUrl + this.url), timeout);
+  }
 
   async click(element: ElementFinder) {
-    await this.waitForElementToBeClickable(element);
+    await this.waitForVisible(element);
     await element.click();
   }
 
-  async select(element: ElementFinder, value: string) {
-    await this.waitForVisible(element);
-    await element.element(by.cssContainingText('option', value)).click();
-  }
-
   async sendKeys(element: ElementFinder, value: string) {
-    await element.clear();
+    await this.waitForVisible(element);
+    await console.log(await element.getText());
+    if(await element.getText() !== '') {
+      await element.clear();
+    }
     await element.sendKeys(value);
   }
 
-  async navigateTo(additionalParams = '') {
-    await browser.get(this.pageUrl + additionalParams);
+  async selectElement(element: ElementFinder, text: string) {
+    await this.waitForVisible(element);
+    return element.sendKeys(text);
   }
 
-  async getValue(element: ElementFinder): Promise<string> {
-    return  element.getAttribute('value');
+  async waitForVisible(element: ElementFinder, timeout = this.IMPLICITLY_WAIT) {
+    await browser.wait(ExpectedConditions.visibilityOf(element), timeout);
   }
 
-
-
-  getTitle() {
-    return browser.getTitle();
+  async waitForInVisible(element: ElementFinder,  timeout = this.IMPLICITLY_WAIT) {
+    await browser.wait(ExpectedConditions.invisibilityOf(element), timeout);
   }
 
-  getCurrentUrl() {
-    return browser.getCurrentUrl();
+  async waitForStale(element: ElementFinder,  timeout = this.IMPLICITLY_WAIT) {
+    await browser.wait(ExpectedConditions.stalenessOf(element), timeout);
   }
 
-  async waitForVisible(element: ElementFinder) {
-    await browser.wait(ExpectedConditions.visibilityOf(element));
-  }
-
-  async waitForElementToBeClickable(element: ElementFinder) {
-    await browser.wait(ExpectedConditions.elementToBeClickable(element));
-  }
-
-  async waitForInVisible(element: ElementFinder, timeout?: number) {
-    await browser.wait(ExpectedConditions.invisibilityOf(element));
-  }
-
-  async switchToDefaultContent() {
-    await browser.switchTo().defaultContent();
-  }
-
-  async scrollToElement(element: ElementFinder) {
-    await browser.executeScript('arguments[0].scrollIntoView()', element.getWebElement());
-  }
 }

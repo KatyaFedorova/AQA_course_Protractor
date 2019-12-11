@@ -3,11 +3,11 @@ import {BaseComponent} from "../helper/base.component";
 
 export class HeaderPo extends BaseComponent {
 
-  iconUserSubDetails = $('.UserCard .UserCard-subDetails');
+  buttonUserSettings = $('[fltrackinglabel="UserSettings"]');
   linkViewProfile = $('[href*="/u/"]');
 
   async openUserProfile() {
-    await this.iconUserSubDetails.click();
-    await this.linkViewProfile.click();
+    await this.click(this.buttonUserSettings);``
+    await this.click(this.linkViewProfile);
   }
 }
