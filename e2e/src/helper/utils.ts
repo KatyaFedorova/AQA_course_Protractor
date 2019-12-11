@@ -1,5 +1,5 @@
 export function getRandom(): number {
-  return Math.floor(Math.random() * 1000000);
+  return Math.floor(Math.random() * 1000);
 }
 
 export function getInitials(firstName: string, lastName: string): string {
