@@ -1,19 +1,19 @@
-// @ts-check
-// Protractor configuration file, see link for more information
-// https://github.com/angular/protractor/blob/master/lib/config.ts
-
 const { SpecReporter } = require('jasmine-spec-reporter');
 
-/**
- * @type { import("protractor").Config }
- */
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    browserName: 'chrome'
+    browserName: 'chrome',
+    chromeOptions: {
+      prefs: {
+        'profile.managed_default_content_settings.notifications': 1
+      }
+    },
+    shardTestFiles: true,
+    maxInstances: 4
   },
   directConnect: true,
   baseUrl: 'https://www.freelancer.com',
@@ -28,5 +28,12 @@ exports.config = {
       project: require('path').join(__dirname, './tsconfig.json')
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+
+    browser.waitForAngularEnabled(false);
+
+    browser.driver
+      .manage()
+      .window()
+      .maximize();
   }
 };

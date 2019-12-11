@@ -1,6 +1,16 @@
 import {browser, ElementFinder, ExpectedConditions} from "protractor";
 
 export class BaseComponent {
+  url: string = '/';
+  IMPLICITLY_WAIT = 5000;
+
+  async open() {
+    await browser.get(this.url);
+  }
+
+  async waitForUrl(timeout?: number) {
+    await browser.wait(ExpectedConditions.urlIs(browser.baseUrl + this.url), timeout);
+  }
 
   async click(element: ElementFinder) {
     await this.waitForVisible(element);
@@ -8,43 +18,29 @@ export class BaseComponent {
   }
 
   async sendKeys(element: ElementFinder, value: string) {
-    await element.clear();
+    await this.waitForVisible(element);
+    await console.log(await element.getText());
+    if(await element.getText() !== '') {
+      await element.clear();
+    }
     await element.sendKeys(value);
   }
 
-
-
-  async navigateTo() {
-    await browser.get(this.pageUrl);
+  async selectElement(element: ElementFinder, text: string) {
+    await this.waitForVisible(element);
+    return element.sendKeys(text);
   }
 
-  getTitle() {
-    return browser.getTitle();
+  async waitForVisible(element: ElementFinder, timeout = this.IMPLICITLY_WAIT) {
+    await browser.wait(ExpectedConditions.visibilityOf(element), timeout);
   }
 
-  getCurrentUrl() {
-    return browser.getCurrentUrl();
+  async waitForInVisible(element: ElementFinder,  timeout = this.IMPLICITLY_WAIT) {
+    await browser.wait(ExpectedConditions.invisibilityOf(element), timeout);
   }
 
-  async waitForVisible(element: ElementFinder) {
-    await browser.wait(ExpectedConditions.visibilityOf(element));
+  async waitForStale(element: ElementFinder,  timeout = this.IMPLICITLY_WAIT) {
+    await browser.wait(ExpectedConditions.stalenessOf(element), timeout);
   }
 
-  async waitForInVisible(element: ElementFinder, timeout?: number) {
-    await browser.wait(ExpectedConditions.invisibilityOf(element));
-  }
-
-  async pressEsc() {
-    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-  }
-
-  async switchToDefaultContent() {
-    await browser.switchTo().defaultContent();
-  }
-
-
-
-  async scrollToElement(element: ElementFinder) {
-    await browser.executeScript('arguments[0].scrollIntoView()', element.getWebElement());
-  }
 }

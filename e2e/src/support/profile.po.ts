@@ -1,4 +1,4 @@
-import {$} from "protractor";
+import { $, $$ } from "protractor";
 import {BaseComponent} from "../helper/base.component";
 
 export class ProfilePo extends BaseComponent {
@@ -17,13 +17,19 @@ export class ProfilePo extends BaseComponent {
   textProfSummary = $('span.profile-about-description:not(.ng-hide)');
   textHourRate = $('.hourly-rate-value .hourly-rate-input');
 
-  btnAddEducation = $('[fl-inline-edit-education]');
+  btnAddEducation = $('[fl-inline-edit-education] .profile-experience-add-btn');
   selectorCountry = $('[name= "country"]');
-  selectorDegree = $('[name= "degree"]');
+  selectorUniversity = $('[name="school"]');
+  inputDegree = $('[name= "degree"]');
   selectorStartYear = $('[name= "startYear"]');
   selectorEndYear = $('[name= "endYear"]');
   btnSaveEducation = $('[fl-inline-edit-education] [type= "submit"]');
-
   textDegree = $('[fl-inline-edit-education] .profile-experience-title');
-  textEducationDetails = $('[fl-inline-edit-education] .profile-experience-title');
+  textEducationDetails = $('[fl-inline-edit-education] .profile-experience-byline');
+  educationItem = $$('.profile-experience-item');
+  iconDelete = $('.flicon-delete');
+
+  iconOnline = $('[data-status="online"]');
+  textOnline = $('.online-text');
+
 }
