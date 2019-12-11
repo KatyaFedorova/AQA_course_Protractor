@@ -2,13 +2,15 @@ import {HomePo} from '../support/home.po';
 import {SignUpPo} from '../support/sign-up.po';
 import {NewFreelancerPo} from '../support/new-freelancer.po';
 import {PaymentsPo} from '../support/payments.po';
+import {LoginPo} from "../support/login.po";
+
+const homePage = new HomePo();
+const signUpPage = new SignUpPo();
+const newFreelancerPage = new NewFreelancerPo();
+const paymentPage = new PaymentsPo();
+const loginPage = new LoginPo();
 
 export async function signUpAsFreelancer(newAccountData) {
-  const homePage = new HomePo();
-  const signUpPage = new SignUpPo();
-  const newFreelancerPage = new NewFreelancerPo();
-  const paymentPage = new PaymentsPo();
-
   await homePage.open();
 
   await homePage.buttonWantWork.click();
@@ -33,5 +35,13 @@ export async function signUpAsFreelancer(newAccountData) {
   await paymentPage.linkSkipForNow.click();
 
   await paymentPage.linkSkipForNow.click();
+}
+
+export async function login(email: string, password:string) {
+  await homePage.open();
+  await homePage.linkLogin.click();
+  await loginPage.inputUserName.sendKeys(email);
+  await loginPage.inputPassword.sendKeys(password);
+  await loginPage.btnLogin.click();
 }
 
