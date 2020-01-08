@@ -1,10 +1,16 @@
-import {browser, ElementFinder, ExpectedConditions} from "protractor";
+import {browser, by, ElementFinder, ExpectedConditions} from "protractor";
 
 export class BaseComponent {
+  pageUrl;
 
   async click(element: ElementFinder) {
-    await this.waitForVisible(element);
+    await this.waitForElementToBeClickable(element);
     await element.click();
+  }
+
+  async select(element: ElementFinder, value: string) {
+    await this.waitForVisible(element);
+    await element.element(by.cssContainingText('option', value)).click();
   }
 
   async sendKeys(element: ElementFinder, value: string) {
@@ -12,11 +18,15 @@ export class BaseComponent {
     await element.sendKeys(value);
   }
 
-
-
-  async navigateTo() {
-    await browser.get(this.pageUrl);
+  async navigateTo(additionalParams = '') {
+    await browser.get(this.pageUrl + additionalParams);
   }
+
+  async getValue(element: ElementFinder): Promise<string> {
+    return  element.getAttribute('value');
+  }
+
+
 
   getTitle() {
     return browser.getTitle();
@@ -30,19 +40,17 @@ export class BaseComponent {
     await browser.wait(ExpectedConditions.visibilityOf(element));
   }
 
-  async waitForInVisible(element: ElementFinder, timeout?: number) {
-    await browser.wait(ExpectedConditions.invisibilityOf(element));
+  async waitForElementToBeClickable(element: ElementFinder) {
+    await browser.wait(ExpectedConditions.elementToBeClickable(element));
   }
 
-  async pressEsc() {
-    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+  async waitForInVisible(element: ElementFinder, timeout?: number) {
+    await browser.wait(ExpectedConditions.invisibilityOf(element));
   }
 
   async switchToDefaultContent() {
     await browser.switchTo().defaultContent();
   }
-
-
 
   async scrollToElement(element: ElementFinder) {
     await browser.executeScript('arguments[0].scrollIntoView()', element.getWebElement());
