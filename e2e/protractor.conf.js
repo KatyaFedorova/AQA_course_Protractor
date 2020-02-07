@@ -29,7 +29,7 @@ exports.config = {
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
 
-    browser.waitForAngularEnabled(false);
+    //browser.waitForAngularEnabled(false);
 
     browser.driver
       .manage()

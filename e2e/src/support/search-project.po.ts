@@ -4,6 +4,6 @@ import { BaseComponent } from '../helper/base.component';
 export class SearchProjectPo extends BaseComponent {
   url = '/search/projects';
 
-  textUserInitials = $('fl-text.Username-displayName');
-  textUserName = $('fl-text.Username-userId');
+  textUserName = $('fl-text.Username-displayName');
+  textUserId = $('fl-text.Username-userId');
 }

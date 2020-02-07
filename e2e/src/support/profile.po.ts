@@ -2,20 +2,17 @@ import { $, $$ } from "protractor";
 import {BaseComponent} from "../helper/base.component";
 
 export class ProfilePo extends BaseComponent {
-  btnEdit = $('.btn-edit-trigger .Button-icon');
-  btnViewProfile = $('.btn-edit-trigger .fl-icon-user');
-  iconEditProfHeadline = $('.profile-user-byline .edit-widget-trigger');
-  iconEditProfSummary = $('#profile-about-description-wrapper .edit-widget-trigger');
-  iconEditHourRate = $('.profile-hourly-rate .edit-widget-trigger');
-  inputProfHeadline = $('.edit-widget-input');
-  inputProfSummary = $('.profile-about-description-input');
-  inputHourRate = $('.hourly-rate-input');
-  btnSaveProfHeadline = $('.profile-user-byline [i18n-msg="Save"]');
-  btnSaveProfSummary = $('#profile-about-description-wrapper [i18n-msg="Save"]');
-  btnSaveHourRate = $('.profile-hourly-rate [i18n-msg="Save"]');
-  textProfHeadline = $('.profile-user-byline span:not(.ng-hide)');
-  textProfSummary = $('span.profile-about-description:not(.ng-hide)');
-  textHourRate = $('.hourly-rate-value .hourly-rate-input');
+  btnEdit = $('.EditButton button');
+  inputProfHeadline = $('#professionalHeadlineEdit');
+  inputProfSummary = $('#userSummaryEdit');
+  inputHourRate = $('#hourlyRateEdit');
+  btnProfileSummary = $('[fltrackinglabel= "SaveButtonClick"]');
+  textProfHeadline = $('app-user-profile-summary-tagline h2');
+  textProfSummary = $('app-user-profile-summary-description div');
+  // yes, yes, I know, but is the shortest one selector which I can find for this element
+  //xpath: (//div[contains(text(),'USD / hour')])[1]
+  textHourRate = $('.UserSummary [data-col-tablet=\'4\'] fl-col app-user-profile-summary-information fl-bit fl-text:nth-of-type(1) div.NativeElement');
+  //fl-col:nth-child(1) > fl-grid > fl-col:nth-child(3) > app-user-profile-summary-information > fl-bit:nth-child(1) > fl-bit > fl-text > div
 
   btnAddEducation = $('[fl-inline-edit-education] .profile-experience-add-btn');
   selectorCountry = $('[name= "country"]');
