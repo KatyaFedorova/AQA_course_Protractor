@@ -8,7 +8,7 @@ export const AccountDataMock = {
   userId: '@antonolkhovskyi',
 
   professionalHeadline: `QA engineer ${ getRandom() }`,
-  summary: `Worked as QA more than ${ getRandom() } years`,
+  summary: `Worked as QA more than ${ getRandom() } years. My favorite joke about QA is:  `,
   hourRate: getRandom().toString(),
 
   education: {
@@ -17,5 +17,5 @@ export const AccountDataMock = {
     degree:'Master of Science',
     startYear:'2010',
     endYear:'2015',
-}
+  }
 };

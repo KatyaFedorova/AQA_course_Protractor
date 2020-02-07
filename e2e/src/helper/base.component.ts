@@ -20,9 +20,7 @@ export class BaseComponent {
   async sendKeys(element: ElementFinder, value: string) {
     await this.waitForVisible(element);
     await console.log(await element.getText());
-    if(await element.getText() !== '') {
-      await element.clear();
-    }
+    await element.clear();
     await element.sendKeys(value);
   }
 

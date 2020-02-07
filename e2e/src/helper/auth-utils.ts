@@ -1,10 +1,14 @@
 import { SignUpPo } from '../support/sign-up.po';
-import { NewFreelancerPo } from '../support/new-freelancer.po';
-import { PaymentsPo } from '../support/payments.po';
+import { RegistrCompleteProfilePo } from '../support/registr-complete-profile.po';
+import { RegistrSelectPaymentMethodPo } from '../support/registr-select-payment-method.po';
+import { RegistrSelectSkillsPo } from '../support/registr-select-skills.po';
+import { RegistrStartTrialPo } from '../support/registr-start-trial.po';
 
 const signUpPage = new SignUpPo();
-const newFreelancerPage = new NewFreelancerPo();
-const paymentPage = new PaymentsPo();
+const regSelectSkillsPage = new RegistrSelectSkillsPo();
+const regCompleteProfilePage = new RegistrCompleteProfilePo();
+const regSelectPaymentMethodPage = new RegistrSelectPaymentMethodPo();
+const regStartTrialPage = new RegistrStartTrialPo();
 
 export async function signUpAsFreelancer(newAccountData) {
   await signUpPage.open();
@@ -18,16 +22,18 @@ export async function signUpAsFreelancer(newAccountData) {
 
   await signUpPage.click(signUpPage.buttonIWantWork);
 
-  await newFreelancerPage.click(newFreelancerPage.linkSkillIT);
-  await newFreelancerPage.click(newFreelancerPage.checkboxMySql);
-  await newFreelancerPage.click(newFreelancerPage.buttonNext);
+  await regSelectSkillsPage.click(regSelectSkillsPage.linkSkillIT);
+  await regSelectSkillsPage.click(regSelectSkillsPage.checkboxMySql);
+  await regSelectSkillsPage.click(regSelectSkillsPage.buttonNext);
 
-  await newFreelancerPage.sendKeys(newFreelancerPage.inputFirstName, newAccountData.firstName);
-  await newFreelancerPage.sendKeys(newFreelancerPage.inputLastName, newAccountData.lastName);
-  await newFreelancerPage.click(newFreelancerPage.buttonLevelBeginner);
+  await regCompleteProfilePage.sendKeys(regCompleteProfilePage.inputFirstName, newAccountData.firstName);
+  await regCompleteProfilePage.sendKeys(regCompleteProfilePage.inputLastName, newAccountData.lastName);
+  await regCompleteProfilePage.click(regCompleteProfilePage.buttonLevelBeginner);
 
-  await paymentPage.click(paymentPage.linkSkipForNow);
+  await regCompleteProfilePage.click(regCompleteProfilePage.buttonNext);
 
-  await paymentPage.click(paymentPage.linkSkipForNow);
+  await regSelectPaymentMethodPage.click(regSelectPaymentMethodPage.linkSkipForNow);
+
+  await regStartTrialPage.click(regStartTrialPage.linkSkipForNow);
 }
 
