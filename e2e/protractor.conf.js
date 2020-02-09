@@ -15,6 +15,7 @@ exports.config = {
     shardTestFiles: true,
     maxInstances: 4
   },
+
   directConnect: true,
   baseUrl: 'https://www.freelancer.com',
   framework: 'jasmine',
@@ -23,13 +24,12 @@ exports.config = {
     defaultTimeoutInterval: 30000,
     print: function() {}
   },
+
   onPrepare() {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.json')
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-
-    //browser.waitForAngularEnabled(false);
 
     browser.driver
       .manage()

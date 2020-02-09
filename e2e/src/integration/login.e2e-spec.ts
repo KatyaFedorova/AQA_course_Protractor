@@ -4,7 +4,6 @@ import { formatUserName } from '../helper/utils';
 import { LoginPo } from '../support/login.po';
 import { DashboardPo } from '../support/dashbord.po';
 import { AccountDataMock } from '../data/account-data.mock';
-import { HeaderPo } from '../support/header.po';
 import { DataProvider } from '../data/data-provider';
 
 describe('Login functionality', () => {
@@ -13,7 +12,6 @@ describe('Login functionality', () => {
 
   const loginPage = new LoginPo();
   const dashboardPage = new DashboardPo();
-  const header = new HeaderPo();
 
   it('check ability to login', async () => {
     await loginPage.open();
@@ -22,7 +20,7 @@ describe('Login functionality', () => {
     expect(await browser.getCurrentUrl()).toContain(dashboardPage.url);
     expect(await dashboardPage.textWelcomeBack.getText()).toEqual(DataProvider.dashboardPage.welcomeText);
     expect(await dashboardPage.textUserInitials.getText()).toEqual(formatUserName(accountData.firstName, accountData.lastName));
-    expect(await dashboardPage.textUserName.getText()).toEqual(accountData.userId);
+    expect(await dashboardPage.textUserName.getText()).toEqual('@' + accountData.userId);
   });
 });
 
