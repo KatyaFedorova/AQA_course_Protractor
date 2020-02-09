@@ -11,46 +11,44 @@ describe('Sigh up functionality', () => {
 
   const accountData = AccountDataMock;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await loginPage.open();
     await loginPage.login(accountData.email, accountData.password);
+    await header.waitForVisible(header.buttonUserSettings);
     await header.openUserProfile();
   });
 
   it('check edit profile info card', async () => {
-    await profilePage.click(profilePage.btnEdit);
-    await profilePage.sendKeys(profilePage.inputProfHeadline, accountData.professionalHeadline);
-    await profilePage.sendKeys(profilePage.inputProfSummary, accountData.summary);
-    await profilePage.sendKeys(profilePage.inputHourRate, accountData.hourRate);
-    await profilePage.click(profilePage.btnProfileSummary);
+    await profilePage.btnEdit.click();
+    await profilePage.setInputValue(profilePage.inputProfHeadline, accountData.professionalHeadline);
+    await profilePage.setInputValue(profilePage.inputProfSummary, accountData.summary);
+    await profilePage.setInputValue(profilePage.inputHourRate, accountData.hourRate);
+    await profilePage.btnProfileSummary.click();
 
     await expect(await profilePage.textProfHeadline.getText()).toEqual(accountData.professionalHeadline);
     await expect(await profilePage.textProfSummary.getText()).toEqual(accountData.summary);
-    await expect(await profilePage.textHourRate.getText()).toEqual(accountData.hourRate);
+    const hourRateString = `$${accountData.hourRate} USD / hour`;
+    await expect(await profilePage.textHourRate.getText()).toEqual(hourRateString);
   });
 
   it('check add education item', async () => {
-    await profilePage.click(profilePage.btnEdit);
-    await profilePage.click(profilePage.btnAddEducation);
-    await profilePage.selectElement(profilePage.selectorCountry, accountData.education.country);
-    //await profilePage.waitForVisible(profilePage.selectorUniversity);
-   // await browser.sleep(1000000);
-    await profilePage.sendKeys(profilePage.selectorUniversity, accountData.education.university);
-    await profilePage.selectElement(profilePage.inputDegree, accountData.education.degree);
-    await profilePage.selectElement(profilePage.selectorStartYear, accountData.education.startYear);
-    await profilePage.selectElement(profilePage.selectorEndYear, accountData.education.endYear);
-    await profilePage.click(profilePage.btnSaveEducation);
+    await profilePage.btnAddEducation.click();
+    await profilePage.selectorCountry.sendKeys(accountData.education.country);
+    await profilePage.selectorUniversity.sendKeys(accountData.education.university);
+    await profilePage.inputDegree.sendKeys(accountData.education.degree);
+    await profilePage.selectorStartYear.sendKeys(accountData.education.startYear);
+    await profilePage.selectorEndYear.sendKeys(accountData.education.endYear);
+    await profilePage.btnSaveEducation.click();
 
     expect(await profilePage.textDegree.getText()).toEqual(accountData.education.degree);
     const educationDuration = +accountData.education.endYear - +accountData.education.startYear;
-    const educationDetails = `${accountData.education.university}, ${accountData.education.country} 
-                              ${accountData.education.startYear} - ${accountData.education.endYear} 
-                              (${educationDuration} years)`;
+    const educationDetails = `${accountData.education.university}, ${accountData.education.country}\n` +
+                              `${accountData.education.startYear} - ${accountData.education.endYear}\n` +
+                              `(${educationDuration} years)`;
     expect(await profilePage.textEducationDetails.getText()).toEqual(educationDetails);
-    expect(await profilePage.educationItem.count()).toEqual(1);
-
-    // TODO: add remove added item
   });
+
+  // TODO: check that items count increase, if we will have free time
 });
 
 
