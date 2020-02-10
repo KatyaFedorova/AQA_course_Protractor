@@ -20,18 +20,25 @@ describe('Sigh up functionality', () => {
 
   it('check edit profile info card', async () => {
     await profilePage.btnEdit.click();
+    await profilePage.iconEditProfHeadline.click();
     await profilePage.setInputValue(profilePage.inputProfHeadline, accountData.professionalHeadline);
+    await profilePage.btnSaveProfHeadline.click();
+    await profilePage.iconEditProfSummary.click();
     await profilePage.setInputValue(profilePage.inputProfSummary, accountData.summary);
+    await profilePage.btnSaveProfSummary.click();
+    await profilePage.iconEditHourRate.click();
     await profilePage.setInputValue(profilePage.inputHourRate, accountData.hourRate);
-    await profilePage.btnProfileSummary.click();
+    await profilePage.btnSaveHourRate.click();
+
+    await profilePage.btnViewProfile.click();
 
     await expect(await profilePage.textProfHeadline.getText()).toEqual(accountData.professionalHeadline);
     await expect(await profilePage.textProfSummary.getText()).toEqual(accountData.summary);
-    const hourRateString = `$${accountData.hourRate} USD / hour`;
-    await expect(await profilePage.textHourRate.getText()).toEqual(hourRateString);
+    await expect(await profilePage.textHourRate.getText()).toEqual(accountData.hourRate);
   });
 
   it('check add education item', async () => {
+    await profilePage.btnEdit.click();
     await profilePage.btnAddEducation.click();
     await profilePage.selectorCountry.sendKeys(accountData.education.country);
     await profilePage.selectorUniversity.sendKeys(accountData.education.university);
@@ -42,8 +49,8 @@ describe('Sigh up functionality', () => {
 
     expect(await profilePage.textDegree.getText()).toEqual(accountData.education.degree);
     const educationDuration = +accountData.education.endYear - +accountData.education.startYear;
-    const educationDetails = `${accountData.education.university}, ${accountData.education.country}\n` +
-                              `${accountData.education.startYear} - ${accountData.education.endYear}\n` +
+    const educationDetails = `${accountData.education.university}, ${accountData.education.country} ` +
+                              `${accountData.education.startYear} - ${accountData.education.endYear} ` +
                               `(${educationDuration} years)`;
     expect(await profilePage.textEducationDetails.getText()).toEqual(educationDetails);
   });

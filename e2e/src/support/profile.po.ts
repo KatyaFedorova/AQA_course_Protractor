@@ -1,29 +1,31 @@
-import {$, $$, By, element} from "protractor";
-import {BaseComponent} from "../helper/base.component";
+import { $, $$ } from "protractor";
+import { BaseComponent } from "../helper/base.component";
 
 export class ProfilePo extends BaseComponent {
-  url = '/u/';
-  btnEdit = $('.EditButton button');
-  inputProfHeadline = $('#professionalHeadlineEdit');
-  inputProfSummary = $('#userSummaryEdit');
-  inputHourRate = $('#hourlyRateEdit');
-  btnProfileSummary = $('[fltrackinglabel = "SaveButtonClick"]');
-  textProfHeadline = $('app-user-profile-summary-tagline h2');
-  textProfSummary = $('app-user-profile-summary-description div');
-  //this is the shortest one selector which I can find for this element
-  textHourRate = element(By.xpath('(//div[contains(text(),\'USD / hour\')])[1]'));
-  // or we can use:
-  //fl-col:nth-child(1) > fl-grid > fl-col:nth-child(3) > app-user-profile-summary-information > fl-bit:nth-child(1) > fl-bit > fl-text > div
-  // or
-  //.UserSummary [data-col-tablet='4'] fl-col app-user-profile-summary-information fl-bit fl-text:nth-of-type(1) div.NativeElement
+  readonly url = '/u/';
 
-  btnAddEducation = $('[fltrackinglabel = "UserProfileAddEducation"]');
-  selectorCountry = $('[fltrackinglabel="EducationEditCountrySelect"] select');
-  selectorUniversity = $('[fltrackinglabel="EducationEditUniversitySelect"] select');
-  inputDegree = $('[fltrackinglabel= "EducationEditDegree"] input');
-  selectorStartYear = $('[fltrackinglabel= "EducationEditStartYear"] select');
-  selectorEndYear = $('[fltrackinglabel= "EducationEditEndYear"] select');
-  btnSaveEducation = $('app-user-profile-editable-ui-action-row fl-button:nth-of-type(2)');
-  textDegree = $$('.Degree h2').get(0);
-  textEducationDetails = $$('app-user-profile-educations-view .Education-content').get(0);
+  readonly btnEdit = $('.btn-edit-trigger .Button-icon');
+  readonly btnViewProfile = $('.btn-edit-trigger .fl-icon-user');
+  readonly iconEditProfHeadline = $('.profile-user-byline .edit-widget-trigger');
+  readonly iconEditProfSummary = $('#profile-about-description-wrapper .edit-widget-trigger');
+  readonly iconEditHourRate = $('.profile-hourly-rate .edit-widget-trigger');
+  readonly inputProfHeadline = $('.edit-widget-input');
+  readonly inputProfSummary = $('.profile-about-description-input');
+  readonly inputHourRate = $('.hourly-rate-input');
+  readonly btnSaveProfHeadline = $('.profile-user-byline [i18n-msg="Save"]');
+  readonly btnSaveProfSummary = $('#profile-about-description-wrapper [i18n-msg="Save"]');
+  readonly btnSaveHourRate = $('.profile-hourly-rate [i18n-msg="Save"]');
+  readonly textProfHeadline = $('.profile-user-byline span:not(.ng-hide)');
+  readonly textProfSummary = $('span.profile-about-description:not(.ng-hide)');
+  readonly textHourRate = $('.hourly-rate-value .hourly-rate-input');
+
+  readonly btnAddEducation = $('[fl-inline-edit-education] .profile-experience-add-btn');
+  readonly selectorCountry = $('[name= "country"]');
+  readonly selectorUniversity = $('[name="school"]');
+  readonly inputDegree = $('[name= "degree"]');
+  readonly selectorStartYear = $('[name= "startYear"]');
+  readonly selectorEndYear = $('[name= "endYear"]');
+  readonly btnSaveEducation = $('[fl-inline-edit-education] [type= "submit"]');
+  readonly textDegree = $$('.profile-experience-title').get(0);
+  readonly textEducationDetails = $$('.profile-experience-byline').get(0);
 }

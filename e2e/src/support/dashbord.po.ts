@@ -2,9 +2,9 @@ import { $ } from 'protractor';
 import {BaseComponent} from "../helper/base.component";
 
 export class DashboardPo extends BaseComponent {
-  url = '/dashboard';
+  readonly url = '/dashboard';
 
-  textWelcomeBack = $('.ProfileWidgetHeader-Name fl-text div');
-  textUserInitials = $('fl-heading.Username-displayName');
-  textUserName = $('fl-heading.Username-userId')
+  readonly textWelcomeBack = $('.ProfileWidgetHeader-Name fl-text div');
+  readonly textUserInitials = $('fl-heading.Username-displayName');
+  readonly textUserName = $('fl-heading.Username-userId')
 }

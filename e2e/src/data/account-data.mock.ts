@@ -1,11 +1,11 @@
 import { getRandom } from '../helper/utils';
 
 export const AccountDataMock = {
-  email: 'anton.olkhovskyi@valor-software.com',
-  password: 'bc?+c6QW@Cpv6u&',
-  firstName: 'Anton',
-  lastName: 'Olkhovskyi',
-  userId: 'antonolkhovskyi',
+  email: 'ekaterina.fedorova+432434@valor-software.com',
+  password: 'Gjpdjybnm1@',
+  firstName: 'Ekaterina',
+  lastName: 'Fedorova',
+  userId: 'ekaterinafedoro9',
 
   professionalHeadline: `QA engineer ${ getRandom() }`,
   summary: `Worked as QA more than ${ getRandom() } years. My favorite joke about QA is: A QA engineer walks into a ` +
