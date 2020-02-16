@@ -1,5 +1,5 @@
 import { $ } from 'protractor';
-import {BaseComponent} from "../helper/base.component";
+import {BaseComponent} from '../helper/base.component';
 
 export class DashboardPo extends BaseComponent {
   readonly url = '/dashboard';

@@ -1,5 +1,5 @@
-import { $, $$ } from "protractor";
-import { BaseComponent } from "../helper/base.component";
+import { $, $$ } from 'protractor';
+import { BaseComponent } from '../helper/base.component';
 
 export class ProfilePo extends BaseComponent {
   readonly url = '/u/';
