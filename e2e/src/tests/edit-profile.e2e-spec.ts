@@ -1,6 +1,6 @@
-import { LoginPo } from '../support/login.po';
-import { ProfilePo } from '../support/profile.po';
-import { HeaderPo } from '../support/header.po';
+import { LoginPo } from '../pages/login.po';
+import { ProfilePo } from '../pages/profile.po';
+import { HeaderPo } from '../pages/header.po';
 import { AccountDataMock } from '../data/account-data.mock';
 
 describe('Sigh up functionality', () => {
@@ -18,16 +18,16 @@ describe('Sigh up functionality', () => {
     await header.openUserProfile();
   });
 
-  it('check edit profile info card', async () => {
+  it('should be able to edit profile info card', async () => {
     await profilePage.btnEdit.click();
     await profilePage.iconEditProfHeadline.click();
-    await profilePage.setInputValue(profilePage.inputProfHeadline, accountData.professionalHeadline);
+    await profilePage.clearAndSetInputValue(profilePage.inputProfHeadline, accountData.professionalHeadline);
     await profilePage.btnSaveProfHeadline.click();
     await profilePage.iconEditProfSummary.click();
-    await profilePage.setInputValue(profilePage.inputProfSummary, accountData.summary);
+    await profilePage.clearAndSetInputValue(profilePage.inputProfSummary, accountData.summary);
     await profilePage.btnSaveProfSummary.click();
     await profilePage.iconEditHourRate.click();
-    await profilePage.setInputValue(profilePage.inputHourRate, accountData.hourRate);
+    await profilePage.clearAndSetInputValue(profilePage.inputHourRate, accountData.hourRate);
     await profilePage.btnSaveHourRate.click();
 
     await profilePage.btnViewProfile.click();

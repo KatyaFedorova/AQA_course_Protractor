@@ -1,25 +1,12 @@
 import { browser } from 'protractor';
 
 import { formatUserName } from '../helper/utils';
-import { LoginPo } from '../support/login.po';
-import { DashboardPo } from '../support/dashbord.po';
+import { LoginPo } from '../pages/login.po';
+import { DashboardPo } from '../pages/dashbord.po';
 import { AccountDataMock } from '../data/account-data.mock';
 import { DataProvider } from '../data/data-provider';
 
-2. для всех пакетов поставить фиксированные версии
-3. переименуй директории: support -> pages, integration -> tests
-4. TBD:
-  - base.component.ts on Monday
-- IMPLICITLY_WAIT
-5. base.component.ts: rename setInputValue -> clearAndSetInputValue
-6. base.component.ts: в импортах добавь алиас для ExpectedConditions as EC и юзай уже его в методах
-  `await browser.wait(EC.visibilityOf(element), timeout);`
-7. e2e/src/helper/base.component.ts:4 удалить явное объявление типа string
-4. e2e/src/support/login.po.ts:11 не хватает пробела
-​
-`async login(email: string, password:string)` => `async login(email: string, password: string)`
-​
-5. header.po.ts тс линт ругается на импорты, юзай одинарные кавычки. Этот момент проверь по всем файлам, ибо много где встречается
+
 6. Что касательно подобной реализации:
   `await profilePage.iconEditProfHeadline.click();
  await profilePage.setInputValue(profilePage.inputProfHeadline, accountData.professionalHeadline);`
@@ -64,8 +51,8 @@ describe('Login functionality', () => {
   it('check ability to login', async () => {
     await loginPage.open();
     await this.waitForVisible(this.inputUserName);
-    await this.setInputValue(this.inputUserName, accountData.email);
-    await this.setInputValue(this.inputPassword, accountData.password);
+    await this.clearAndSetInputValue(this.inputUserName, accountData.email);
+    await this.clearAndSetInputValue(this.inputPassword, accountData.password);
     await this.btnLogin.click();
 
     expect(await browser.getCurrentUrl()).toContain(dashboardPage.url);
