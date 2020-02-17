@@ -2,6 +2,8 @@ import { LoginPo } from '../pages/login.po';
 import { ProfilePo } from '../pages/profile.po';
 import { HeaderPo } from '../pages/header.po';
 import { AccountDataMock } from '../data/account-data.mock';
+import { concatEducationDetailsString } from "../helper/utils";
+import {browser} from "protractor";
 
 describe('Sigh up functionality', () => {
 
@@ -9,53 +11,36 @@ describe('Sigh up functionality', () => {
   const header = new HeaderPo();
   const profilePage = new ProfilePo();
 
-  const accountData = AccountDataMock;
+  const { email, password, education, professionalHeadline, summary, hourRate } = AccountDataMock;
 
   beforeAll(async () => {
     await loginPage.open();
-    await loginPage.login(accountData.email, accountData.password);
-    await header.waitForVisible(header.buttonUserSettings);
+    await loginPage.login(email, password);
     await header.openUserProfile();
   });
 
-  it('should be able to edit profile info card', async () => {
-    await profilePage.btnEdit.click();
-    await profilePage.iconEditProfHeadline.click();
-    await profilePage.clearAndSetInputValue(profilePage.inputProfHeadline, accountData.professionalHeadline);
-    await profilePage.btnSaveProfHeadline.click();
-    await profilePage.iconEditProfSummary.click();
-    await profilePage.clearAndSetInputValue(profilePage.inputProfSummary, accountData.summary);
-    await profilePage.btnSaveProfSummary.click();
-    await profilePage.iconEditHourRate.click();
-    await profilePage.clearAndSetInputValue(profilePage.inputHourRate, accountData.hourRate);
-    await profilePage.btnSaveHourRate.click();
-
-    await profilePage.btnViewProfile.click();
-
-    await expect(await profilePage.textProfHeadline.getText()).toEqual(accountData.professionalHeadline);
-    await expect(await profilePage.textProfSummary.getText()).toEqual(accountData.summary);
-    await expect(await profilePage.textHourRate.getText()).toEqual(accountData.hourRate);
+  afterEach(async () => {
+    await browser.manage().deleteAllCookies();
   });
 
-  it('check add education item', async () => {
-    await profilePage.btnEdit.click();
-    await profilePage.btnAddEducation.click();
-    await profilePage.selectorCountry.sendKeys(accountData.education.country);
-    await profilePage.selectorUniversity.sendKeys(accountData.education.university);
-    await profilePage.inputDegree.sendKeys(accountData.education.degree);
-    await profilePage.selectorStartYear.sendKeys(accountData.education.startYear);
-    await profilePage.selectorEndYear.sendKeys(accountData.education.endYear);
-    await profilePage.btnSaveEducation.click();
+  it('should edit profile info card', async () => {
+    await profilePage.turnOnEditMode();
+    await profilePage.editProfileDescription(professionalHeadline, summary, hourRate);
+    await profilePage.turnOffEditMode();
 
-    expect(await profilePage.textDegree.getText()).toEqual(accountData.education.degree);
-    const educationDuration = +accountData.education.endYear - +accountData.education.startYear;
-    const educationDetails = `${accountData.education.university}, ${accountData.education.country} ` +
-                              `${accountData.education.startYear} - ${accountData.education.endYear} ` +
-                              `(${educationDuration} years)`;
-    expect(await profilePage.textEducationDetails.getText()).toEqual(educationDetails);
+    await expect(await profilePage.getHeadlineText()).toEqual(professionalHeadline);
+    await expect(await profilePage.getProfSummaryText()).toEqual(summary);
+    await expect(await profilePage.getHourRateText()).toEqual(hourRate);
   });
 
-  // TODO: check that items count increase, if we will have free time
+  it('should add education item', async () => {
+    await profilePage.turnOnEditMode();
+    await profilePage.addEducationItem(education);
+    await profilePage.turnOffEditMode();
+
+    expect(await profilePage.getEducationDegree()).toEqual(education.degree);
+    expect(profilePage.getEducationDetails()).toEqual(concatEducationDetailsString(education));
+  });
 });
 
 

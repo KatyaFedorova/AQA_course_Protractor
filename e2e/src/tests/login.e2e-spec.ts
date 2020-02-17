@@ -8,39 +8,41 @@ import { DataProvider } from '../data/data-provider';
 
 describe('Login functionality', () => {
 
-  const accountData = AccountDataMock;
-
-  const { email, password, userId, firstName, lastName } = accountData;
+  const { email, password, userId, firstName, lastName } = AccountDataMock;
 
   const loginPage = new LoginPo();
   const dashboardPage = new DashboardPo();
 
-  beforeAll(async () = > {
+  beforeEach(async() => {
     await loginPage.open();
-  })
+  });
+
+  afterEach(async () => {
+    await browser.manage().deleteAllCookies();
+  });
 
   it('check ability to login with CORRECT password and email', async () => {
     await loginPage.login(email, password);
 
-    expect(await browser.getCurrentUrl()).toContain(dashboardPage.url);
-    expect(await dashboardPage.textWelcomeBack.getText()).toEqual(DataProvider.dashboardPage.welcomeText);
-    expect(await dashboardPage.textUserInitials.getText()).toEqual(formatUserName(firstName, lastName));
-    expect(await dashboardPage.textUserName.getText()).toEqual('@' + userId);
+    expect(await dashboardPage.isUrlOpen()).toBe(true);
+    expect(await dashboardPage.getWelcomeText()).toEqual(DataProvider.dashboardPage.welcomeText);
+    expect(await dashboardPage.getUserInitials()).toEqual(formatUserName(firstName, lastName));
+    expect(await dashboardPage.getUserId()).toEqual('@' + userId);
   });
 
   it('check ability to login with INCORRECT password', async () => {
     await loginPage.login(email, 'incorrect_pass');
 
-    expect(await browser.getCurrentUrl()).toContain(loginPage.url);
+    expect(await loginPage.isUrlOpen()).toBe(true);
     const errorMessage = 'Incorrect username or password provided.';
-    expect(await loginPage.textPswrdErrorMessage.getText()).toEqual(errorMessage);
+    expect(await loginPage.getPasswordErrorText()).toContain(errorMessage);
   });
 
   it('check ability to login with INCORRECT email', async () => {
     await loginPage.login('incorrect_email', password);
 
-    expect(await browser.getCurrentUrl()).toContain(loginPage.url);
+    expect(await loginPage.isUrlOpen()).toBe(true);
     const errorMessage = 'Please enter a valid username or email address.';
-    expect(await loginPage.textPswrdErrorMessage.getText()).toEqual(errorMessage);
+    expect(await loginPage.getEmailErrorText()).toEqual(errorMessage);
   });
 });

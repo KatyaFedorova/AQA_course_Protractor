@@ -1,11 +1,12 @@
 import { $ } from 'protractor';
-import { BaseComponent } from '../helper/base.component';
+import { BaseComponent } from './base.component';
 
 export class HeaderPo extends BaseComponent {
-  readonly buttonUserSettings = $('[fltrackinglabel="UserSettings"] >button');
-  readonly linkViewProfile = $('[href*="/u/"]');
+  private readonly buttonUserSettings = $('[fltrackinglabel="UserSettings"] >button');
+  private readonly linkViewProfile = $('[href*="/u/"]');
 
-  async openUserProfile() {
+  async openUserProfile():Promise<void> {
+    await this.waitForVisible(this.buttonUserSettings);
     await this.buttonUserSettings.click();
     await this.linkViewProfile.click();
   }
