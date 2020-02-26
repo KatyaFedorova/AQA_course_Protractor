@@ -3,12 +3,12 @@ import { browser } from 'protractor';
 import { formatUserName } from '../helper/utils';
 import { LoginPo } from '../pages/login.po';
 import { DashboardPo } from '../pages/dashbord.po';
-import { AccountDataMock } from '../data/account-data.mock';
+import { accountData } from '../data/account-data.mock';
 import { DataProvider } from '../data/data-provider';
 
 describe('Login functionality', () => {
 
-  const { email, password, userId, firstName, lastName } = AccountDataMock;
+  const { email, password, userId, firstName, lastName } = accountData;
 
   const loginPage = new LoginPo();
   const dashboardPage = new DashboardPo();

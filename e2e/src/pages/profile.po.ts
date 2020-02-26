@@ -1,82 +1,67 @@
 import { $, $$ } from 'protractor';
+
 import { BaseComponent } from './base.component';
+import { IEducation } from "../data/edication-data.interface";
 
 export class ProfilePo extends BaseComponent {
   readonly url = '/u/';
 
-  private readonly btnEdit = $('.btn-edit-trigger .Button-icon');
-  private readonly btnViewProfile = $('.btn-edit-trigger .fl-icon-user');
-  private readonly iconEditProfHeadline = $('.profile-user-byline .edit-widget-trigger');
-  private readonly iconEditProfSummary = $('#profile-about-description-wrapper .edit-widget-trigger');
-  private readonly iconEditHourRate = $('.profile-hourly-rate .edit-widget-trigger');
-  private readonly inputProfHeadline = $('.edit-widget-input');
-  private readonly inputProfSummary = $('.profile-about-description-input');
-  private readonly inputHourRate = $('.hourly-rate-input');
-  private readonly btnSaveProfHeadline = $('.profile-user-byline [i18n-msg="Save"]');
-  private readonly btnSaveProfSummary = $('#profile-about-description-wrapper [i18n-msg="Save"]');
-  private readonly btnSaveHourRate = $('.profile-hourly-rate [i18n-msg="Save"]');
-  private readonly textProfHeadline = $('.profile-user-byline span:not(.ng-hide)');
-  private readonly textProfSummary = $('span.profile-about-description:not(.ng-hide)');
-  private readonly textHourRate = $('.hourly-rate-value .hourly-rate-input');
-  
-  private readonly btnAddEducation = $('[fl-inline-edit-education] .profile-experience-add-btn');
-  private readonly selectorCountry = $('[name= "country"]');
-  private readonly selectorUniversity = $('[name="school"]');
-  private readonly inputDegree = $('[name= "degree"]');
-  private readonly selectorStartYear = $('[name= "startYear"]');
-  private readonly selectorEndYear = $('[name= "endYear"]');
-  private readonly btnSaveEducation = $('[fl-inline-edit-education] [type= "submit"]');
-  private readonly textDegree = $$('.profile-experience-title').get(0);
-  private readonly textEducationDetails = $$('.profile-experience-byline').get(0);
+  private readonly brnEditProfInf = $('.EditButton button');
+  private readonly inputProfHeadline = $('#professionalHeadlineEdit');
+  private readonly inputProfSummary = $('#userSummaryEdit');
+  private readonly inputHourRate = $('#hourlyRateEdit');
+  private readonly btnSaveProfInf = $('[fltrackinglabel = "SaveButtonClick"]');
+  private readonly textProfHeadline = $('app-user-profile-summary-tagline h2');
+  private readonly textProfSummary = $('app-user-profile-summary-description div');
+  private readonly textHourRate = $('app-user-profile-summary-information');
 
-  public async turnOnEditMode(): Promise<void> {
-    await this.btnEdit.click();
-  }
+  private readonly btnAddEducation = $('[fltrackinglabel = "UserProfileAddEducation"]');
+  private readonly selectorCountry = $('[fltrackinglabel="EducationEditCountrySelect"] select');
+  private readonly selectorUniversity = $('[fltrackinglabel="EducationEditUniversitySelect"] select');
+  private readonly inputDegree = $('[fltrackinglabel= "EducationEditDegree"] input');
+  private readonly selectorStartYear = $('[fltrackinglabel= "EducationEditStartYear"] select');
+  private readonly selectorEndYear = $('[fltrackinglabel= "EducationEditEndYear"] select');
+  private readonly btnSaveEducation = $('app-user-profile-editable-ui-action-row fl-button:nth-of-type(2)');
+  private readonly textDegree = $$('.Degree h2').get(0);
+  private readonly textEducationDetails = $$('app-user-profile-educations-view .Education-content').get(0);
 
-  public async turnOffEditMode(): Promise<void> {
-    await this.btnViewProfile.click();
-  }
-
-  public async getHeadlineText():Promise<string> {
+  public async getHeadlineText(): Promise<string> {
     return this.textProfHeadline.getText()
   }
 
-  public async getProfSummaryText():Promise<string> {
+  public async getProfSummaryText(): Promise<string> {
     return this.textProfSummary.getText()
   }
 
-  public async getHourRateText():Promise<string> {
-    return this.textHourRate.getText()
+  public async getHourRateText(): Promise<string> {
+    return (await this.textHourRate.getText()).match('^.([0-9]{3})\\s')[0]
   }
 
-  public async editProfileDescription(professionalHeadline: string, summary: string, hourRate: string):Promise<void> {
-    await this.iconEditProfHeadline.click();
+  public async editAndSaveProfileInf(professionalHeadline: string, summary: string, hourRate: string): Promise<void> {
+    await this.brnEditProfInf.click();
     await this.clearAndSetInputValue(this.inputProfHeadline, professionalHeadline);
-    await this.btnSaveProfHeadline.click();
-    await this.iconEditProfSummary.click();
     await this.clearAndSetInputValue(this.inputProfSummary, summary);
-    await this.btnSaveProfSummary.click();
-    await this.iconEditHourRate.click();
     await this.clearAndSetInputValue(this.inputHourRate, hourRate);
-    await this.btnSaveHourRate.click();
+    await this.btnSaveProfInf.click();
   }
 
-  public async addEducationItem(education): Promise<void> {
+  public async addEducationItem(education: IEducation): Promise<void> {
+    const {country, university, degree, startYear, endYear} = education;
+
     await this.btnAddEducation.click();
-    await this.selectorCountry.sendKeys(education.country);
-    await this.waitForClickable(this.selectorUniversity);
-    await this.selectorUniversity.sendKeys(education.university);
-    await this.inputDegree.sendKeys(education.degree);
-    await this.selectorStartYear.sendKeys(education.startYear);
-    await this.selectorEndYear.sendKeys(education.endYear);
+    await this.selectorCountry.sendKeys(country);
+    await this.selectorUniversity.sendKeys(university);
+    await this.inputDegree.sendKeys(degree);
+    await this.selectorStartYear.sendKeys(startYear);
+    await this.selectorEndYear.sendKeys(endYear);
     await this.btnSaveEducation.click();
   }
 
-  public async getEducationDegree():Promise<string> {
+  public async getEducationDegree(): Promise<string> {
     return this.textDegree.getText()
   }
 
-  public async getEducationDetails():Promise<string> {
+  public async getEducationDetails(): Promise<string> {
     return  this.textEducationDetails.getText()
   }
 }

@@ -1,9 +1,11 @@
+import {browser} from "protractor";
+
 import { LoginPo } from '../pages/login.po';
 import { ProfilePo } from '../pages/profile.po';
 import { HeaderPo } from '../pages/header.po';
-import { AccountDataMock } from '../data/account-data.mock';
+import { accountData } from '../data/account-data.mock';
 import { concatEducationDetailsString } from "../helper/utils";
-import {browser} from "protractor";
+import { educationData } from "../data/educaction-data.mock";
 
 describe('Sigh up functionality', () => {
 
@@ -11,7 +13,7 @@ describe('Sigh up functionality', () => {
   const header = new HeaderPo();
   const profilePage = new ProfilePo();
 
-  const { email, password, education, professionalHeadline, summary, hourRate } = AccountDataMock;
+  const { email, password, professionalHeadline, summary, hourRate } = accountData;
 
   beforeAll(async () => {
     await loginPage.open();
@@ -24,22 +26,18 @@ describe('Sigh up functionality', () => {
   });
 
   it('should edit profile info card', async () => {
-    await profilePage.turnOnEditMode();
-    await profilePage.editProfileDescription(professionalHeadline, summary, hourRate);
-    await profilePage.turnOffEditMode();
+    await profilePage.editAndSaveProfileInf(professionalHeadline, summary, hourRate);
 
     await expect(await profilePage.getHeadlineText()).toEqual(professionalHeadline);
     await expect(await profilePage.getProfSummaryText()).toEqual(summary);
-    await expect(await profilePage.getHourRateText()).toEqual(hourRate);
+    await expect(await profilePage.getHourRateText()).toContain(hourRate);
   });
 
   it('should add education item', async () => {
-    await profilePage.turnOnEditMode();
-    await profilePage.addEducationItem(education);
-    await profilePage.turnOffEditMode();
+    await profilePage.addEducationItem(educationData);
 
-    expect(await profilePage.getEducationDegree()).toEqual(education.degree);
-    expect(profilePage.getEducationDetails()).toEqual(concatEducationDetailsString(education));
+    expect(await profilePage.getEducationDegree()).toEqual(educationData.degree);
+    expect(profilePage.getEducationDetails()).toEqual(concatEducationDetailsString(educationData));
   });
 });
 

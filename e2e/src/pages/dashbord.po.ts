@@ -1,4 +1,5 @@
 import { $ } from 'protractor';
+
 import { BaseComponent } from './base.component';
 
 export class DashboardPo extends BaseComponent {
@@ -8,15 +9,15 @@ export class DashboardPo extends BaseComponent {
   private readonly textUserInitials = $('fl-heading.Username-displayName');
   private readonly textUserId = $('fl-heading.Username-userId');
 
-  async getWelcomeText():Promise<string> {
+  async getWelcomeText(): Promise<string> {
     return this.textWelcomeBack.getText();
   }
 
-  async getUserInitials():Promise<string> {
+  async getUserInitials(): Promise<string> {
     return this.textUserInitials.getText();
   }
 
-  async getUserId():Promise<string> {
+  async getUserId(): Promise<string> {
     return this.textUserId.getText();
   }
 }
