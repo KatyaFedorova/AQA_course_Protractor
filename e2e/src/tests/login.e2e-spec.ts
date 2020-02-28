@@ -2,7 +2,7 @@ import { browser } from 'protractor';
 
 import { formatUserName } from '../helper/utils';
 import { LoginPo } from '../pages/login.po';
-import { DashboardPo } from '../pages/dashbord.po';
+import { DashboardPo } from '../pages/dashboard.po';
 import { accountData } from '../data/account-data.mock';
 import { DataProvider } from '../data/data-provider';
 
@@ -21,28 +21,28 @@ describe('Login functionality', () => {
     await browser.manage().deleteAllCookies();
   });
 
-  it('check ability to login with CORRECT password and email', async () => {
+  it('should check ability to login with CORRECT password and email', async () => {
     await loginPage.login(email, password);
 
-    expect(await dashboardPage.isUrlOpen()).toBe(true);
+    expect(await dashboardPage.isUrlOpened()).toBe(true);
     expect(await dashboardPage.getWelcomeText()).toEqual(DataProvider.dashboardPage.welcomeText);
     expect(await dashboardPage.getUserInitials()).toEqual(formatUserName(firstName, lastName));
     expect(await dashboardPage.getUserId()).toEqual('@' + userId);
   });
 
-  it('check ability to login with INCORRECT password', async () => {
+  it('should not be able to login with INCORRECT password', async () => {
+    const errorMessage = 'Incorrect username or password provided.';
     await loginPage.login(email, 'incorrect_pass');
 
-    expect(await loginPage.isUrlOpen()).toBe(true);
-    const errorMessage = 'Incorrect username or password provided.';
+    expect(await loginPage.isUrlOpened()).toBe(true);
     expect(await loginPage.getPasswordErrorText()).toContain(errorMessage);
   });
 
-  it('check ability to login with INCORRECT email', async () => {
+  it('should not be able to login with INCORRECT email', async () => {
+    const errorMessage = 'Please enter a valid username or email address.';
     await loginPage.login('incorrect_email', password);
 
-    expect(await loginPage.isUrlOpen()).toBe(true);
-    const errorMessage = 'Please enter a valid username or email address.';
+    expect(await loginPage.isUrlOpened()).toBe(true);
     expect(await loginPage.getEmailErrorText()).toEqual(errorMessage);
   });
 });

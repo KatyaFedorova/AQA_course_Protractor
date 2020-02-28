@@ -7,7 +7,7 @@ export class BaseComponent {
     await browser.get(this.url + additionalPath);
   }
 
-  async isUrlOpen(): Promise<boolean> {
+  async isUrlOpened(): Promise<boolean> {
     return (await browser.getCurrentUrl()).includes(this.url);
   }
 

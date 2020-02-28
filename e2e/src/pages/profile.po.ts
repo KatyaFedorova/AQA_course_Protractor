@@ -22,8 +22,8 @@ export class ProfilePo extends BaseComponent {
   private readonly selectorStartYear = $('[fltrackinglabel= "EducationEditStartYear"] select');
   private readonly selectorEndYear = $('[fltrackinglabel= "EducationEditEndYear"] select');
   private readonly btnSaveEducation = $('app-user-profile-editable-ui-action-row fl-button:nth-of-type(2)');
-  private readonly textDegree = $$('.Degree h2').get(0);
-  private readonly textEducationDetails = $$('app-user-profile-educations-view .Education-content').get(0);
+  private readonly textLastAddedDegree = $$('.Degree h2').get(0);
+  private readonly textLasrAddedEducDetails = $$('app-user-profile-educations-view .Education-content').get(0);
 
   public async getHeadlineText(): Promise<string> {
     return this.textProfHeadline.getText()
@@ -58,10 +58,10 @@ export class ProfilePo extends BaseComponent {
   }
 
   public async getEducationDegree(): Promise<string> {
-    return this.textDegree.getText()
+    return this.textLastAddedDegree.getText()
   }
 
   public async getEducationDetails(): Promise<string> {
-    return  this.textEducationDetails.getText()
+    return  this.textLasrAddedEducDetails.getText()
   }
 }

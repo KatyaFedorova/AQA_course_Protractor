@@ -5,7 +5,7 @@ import { BaseComponent } from './base.component';
 export class DashboardPo extends BaseComponent {
   readonly url = '/dashboard';
 
-  private readonly textWelcomeBack = $('.ProfileWidgetHeader-Name fl-text div');
+  private readonly textWelcomeBack = $('.ProfileWidgetHeader-Name .NativeElement');
   private readonly textUserInitials = $('fl-heading.Username-displayName');
   private readonly textUserId = $('fl-heading.Username-userId');
 

@@ -7,7 +7,7 @@ import { accountData } from '../data/account-data.mock';
 import { concatEducationDetailsString } from "../helper/utils";
 import { educationData } from "../data/educaction-data.mock";
 
-describe('Sigh up functionality', () => {
+describe('Sign up functionality', () => {
 
   const loginPage = new LoginPo();
   const header = new HeaderPo();
